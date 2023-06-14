@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+now="$(date +"%Y_%m_%d_%H_%M")"
+src_dir="$HOME"
+dest_dir="/media/${USER}/MAIN/backup"
+
+# if not root do nothing
+if [[ $EUID -ne 0 ]]; then
+  echo "Root privileges required."
+  exit 1
+fi
+
+if [[ -d "$dest_dir" ]]; then
+  tar cpzvf "$dest_dir/$now-backup.tgz --same-owner $src_dir"
+fi
+
